@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books I Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #fff8f0, #1e1e1e);
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding-right: 320px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #5b42ff, #3791ff);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        /* Clean Horizontal Navbar */
+        .navbar {
+            background: #111;
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: nowrap;
+            list-style: none;
+        }
+        .nav-links a, .dropbtn {
+            color: #167fff;
+            text-decoration: none;
+            font-size: 19px;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 50px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .nav-links a:hover, .dropdown:hover .dropbtn {
+            background: #167fff;
+            color: white;
+        }
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #222;
+            min-width: 200px;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            top: 100%; left: 50%; transform: translateX(-50%);
+            z-index: 1001;
+        }
+        .dropdown-content a {
+            color: #167fff; padding: 14px 20px; display: block; font-weight: 600;
+        }
+        .dropdown-content a:hover { background: #333; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* Hero Slider */
+        .hero-slider {
+            position: relative;
+            height: 90vh;
+            overflow: hidden;
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .slide.active { opacity: 1; }
+        .hero-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+        .hero-text h1 { font-size: 68px; font-weight: 800; margin-bottom: 20px; }
+        .hero-text p { font-size: 28px; margin-bottom: 30px; }
+        .hero-btn {
+            background: #167fff;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(12, 146, 255, 0.5);
+            transition: 0.3s;
+        }
+        .hero-btn:hover { transform: translateY(-5px); }
+
+        /* Perfect Scroll Fix */
+        #home, #about, #history, #politics, #novels, #islamic, #contact {
+            scroll-margin-top: 100px;
+        }
+
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            color: #167fff;
+            margin: 80px 0 40px;
+            font-weight: 700;
+        }
+
+        #about {
+            text-align:center;
+            padding:70px 20px;
+            border-radius:30px;
+            margin:30px 0;
+            background: #222;
+        }
+
+        .book-card {
+            display: flex;
+            background: #222;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+            margin-bottom: 50px;
+            transition: 0.4s;
+        }
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(255,109,0,0.4);
+        }
+        .book-img {
+            width: 300px;
+            height: 420px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .book-info { padding: 35px; flex: 1; }
+        .title { font-size: 28px; color: #fff; margin-bottom: 10px; font-weight: 700; }
+        .author { color: #167fff; font-weight: 700; font-size: 20px; margin-bottom: 15px; }
+        .desc { color: #bbbbbb; margin-bottom: 18px; font-size: 17px; }
+        .highlight { background: #fff4e6; color: #167fff; padding: 8px 16px; border-radius: 12px; font-weight: bold; font-size: 15px; }
+        .myray {
+            background: #2c2c2c;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 25px 0;
+            border-left: 6px solid #167fff;
+            font-style: italic;
+            color: #3e88e2;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #1677ed, #0467e1);
+            color: white;
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(58, 160, 244, 0.5);
+            transition: 0.4s;
+        }
+        .btn:hover { transform: translateY(-5px); }
+
+        #contact {
+            background: #222222; padding: 70px 40px; border-radius: 30px;
+            text-align: center; margin: 60px 0; box-shadow: 0 15px 40px rgba(123, 207, 247, 0.6);
+        }
+        #contact h2 { font-size: 44px; color: #167fff; margin-bottom: 30px; }
+
+        footer {
+            background: linear-gradient(135deg, #167fff, #167fff);
+            color: white; text-align: center; padding: 10px 10px; font-size: 21px;
+        }
+        .social-icons a {
+            color: white; font-size: 32px; margin: 0 20px; transition: 0.3s;
+        }
+        .social-icons a:hover { transform: scale(1.3); }
+
+        .quick-sidebar {
+            position: fixed;
+            right: 0; top: 0; width: 320px; height: 100vh;
+            background: linear-gradient(135deg, #111, #222);
+            color: white; padding: 30px 25px; overflow-y: auto;
+            z-index: 999; box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+            border-left: 4px solid #167fff;
+        }
+        .quick-sidebar h3 { font-size: 26px; text-align: center; margin-bottom: 30px; color: #167fff; font-weight: 700; }
+        .quick-section h4 { font-size: 19px; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #167fff; }
+        .quick-section a { color: #4a97f5; text-decoration: none; font-size: 15px; display: block; padding: 10px 0; transition: 0.3s; }
+        .quick-section a:hover { color: white; transform: translateX(10px); }
+
+        
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Books I Love</div>
+</header>
+
+<div class="navbar">
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <div class="dropdown">
+            <button class="dropbtn">Categories</button>
+            <div class="dropdown-content">
+                <a href="#history">History</a>
+                <a href="#politics">Politics</a>
+                <a href="#novels">Novels</a>
+                <a href="#islamic">Islamic</a>
+            </div>
+        </div>
+        <a href="#contact">Contact</a>
+    </div>
+</div>
+
+<!-- HERO SLIDER (HOME) -->
+<div id="home" class="hero-slider">
+    <div class="hero-text">
+        <h1>Welcome to Books I Love</h1>
+        <p>Dive into stories that shape Pakistan’s intellectual identity</p>
+        <a href="#history" class="hero-btn">Explore Now</a>
+    </div>
+    <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1920');"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=1920');"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1532012197267-da84d127e765?w=1920');"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1512820790803-83ca73484576?w=1920');"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1491841573634-28140fc7cedd?w=1920');"></div>
+    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=1920');"></div>
+</div>
+
+<!-- QUICK SIDEBAR -->
+<div class="quick-sidebar">
+    <h3>Quick Access</h3>
+    <div class="quick-section">
+        <h4>Online Libraries</h4>
+        <ul style="list-style:none;">
+            <li><a href="https://archive.org" target="_blank">Archive.org</a></li>
+            <li><a href="https://rekhta.org" target="_blank">Rekhta.org (Urdu)</a></li>
+            <li><a href="https://openlibrary.org" target="_blank">Open Library</a></li>
+            <li><a href="https://kitabghar.org" target="_blank">Kitab Ghar</a></li>
+            <li><a href="https://www.pdfdrive.com" target="_blank">PDF Drive</a></li>
+        </ul>
+    </div>
+    <div class="quick-section">
+        <h4>Book Markets (Pakistan)</h4>
+        <ul style="list-style:none;">
+            <li><a href="https://maps.app.goo.gl/8gH5nL6mK7eJ9rXLA" target="_blank">Urdu Bazaar, Lahore</a></li>
+            <li><a href="https://maps.app.goo.gl/9kJ5vP8mK2dR9xYc7" target="_blank">Regal Chowk, Karachi</a></li>
+            <li><a href="https://maps.app.goo.gl/L3fR9vXbY8mK2pQ89" target="_blank">Anarkali Bazaar, Lahore</a></li>
+            <li><a href="https://maps.app.goo.gl/4tR8xP9kM7dF3vR96" target="_blank">Saddar Bazaar, Rawalpindi</a></li>
+            <li><a href="https://maps.app.goo.gl/X7kP9vM4tR2qW8xY6" target="_blank">F-7 Markaz, Islamabad</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+
+    <div id="about">
+        <h1 style="font-size:44px;color:#167fff;">About This Project</h1>
+        <p style="font-size:21px;max-width:900px;margin:30px auto;color:#cccccc;">
+            Books I Love was created to inspire young minds to read, reflect, and rediscover who we truly are. This platform brings together powerful books that open hearts, strengthen faith, and help us understand our history and identity. Our purpose is simple — to make knowledge easy, free, and meaningful for every reader.
+        </p>
+    </div>
+
+    <!-- HISTORY -->
+    <h2 class="section-title" id="history">History Books</h2>
+    <div class="book-card">
+        <img src="images/MH.jpg" class="book-img" alt="A Modern History">
+        <div class="book-info">
+            <div class="title"> A Modern History</div>
+            <div class="author">Ian Talbot</div>
+            <div class="desc">Pakistan’s political and social history since 1947.</div>
+            <span class="highlight">Historical Book</span>
+            <div class="myray">Offers a clear view of Pakistan’s journey. Essential for students and history lovers</div>
+            <a href="https://archive.org/details/pakistanmodernhistory" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+    <div class="book-card">
+        <img src="images/JZ.jpeg" class="book-img" alt="From Jinnah to Zia">
+        <div class="book-info">
+            <div class="title">From Jinnah to Zia</div>
+            <div class="author">Muhammad Munir</div>
+            <div class="desc">Political evolution from Jinnah’s vision to Zia’s era.</div>
+            <span class="highlight">Political Classic</span>
+            <div class="myray">Gives insight into ideological shifts in Pakistan. Makes one think critically.</div>
+            <a href="https://archive.org/details/fromjinnahtozia" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+
+    <!-- POLITICS -->
+    <h2 class="section-title" id="politics">Politics Books</h2>
+    <div class="book-card">
+        <img src="images/Paradox.jpeg" class="book-img" alt="The Struggle for Pakistan">
+        <div class="book-info">
+            <div class="title">The Pakistan Paradox</div>
+            <div class="author">Christophe Jaffrelot</div>
+            <div class="desc">Pakistan’s complex political, social, and economic landscape.</div>
+            <span class="highlight">Political Analysis</span>
+            <div class="myray">This book clearly explains Pakistan’s political challenges and the paradoxes shaping its society and state.</div>
+            <a href="https://archive.org/details/struggleforpakistan" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+    <div class="book-card">
+        <img src="images/Inc.jpg" class="book-img" alt="Military Inc.">
+        <div class="book-info">
+            <div class="title">Military Inc.</div>
+            <div class="author">Ayesha Siddiqa</div>
+            <div class="desc">Explores Pakistan’s military influence in politics, economy, and society.</div>
+            <span class="highlight">Eye-Opening</span>
+            <div class="myray">Reading it made me more aware of the unseen forces guiding the country.</div>
+            <a href="https://archive.org/details/militaryinc" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+    <div class="book-card">
+        <img src="images/By.jpg" class="book-img" alt="Pakistan: A Hard Country">
+        <div class="book-info">
+            <div class="title">Beyond the ‘Crisis State’</div>
+            <div class="author">Naveeda Khan</div>
+            <div class="desc">Examines Pakistan’s social and political challenges beyond recurring crises.</div>
+            <span class="highlight">International View</span>
+            <div class="myray">Reading it gave me a deeper understanding of the nation’s long-term struggles.</div>
+            <a href="https://archive.org/details/pakistanahardcountry" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+
+    <!-- NOVELS -->
+    <h2 class="section-title" id="novels">Urdu Novels</h2>
+    <div class="book-card">
+        <img src="images/Pir.jpg" class="book-img" alt="Peer-e-Kamil">
+        <div class="book-info">
+            <div class="title">Peer-e-Kamil (صلى الله عليه وسلم)</div>
+            <div class="author">Umera Ahmed</div>
+            <div class="desc">A spiritual and emotional journey of faith, love, and personal growth.</div>
+            <span class="highlight">10 Million+ Readers</span>
+            <div class="myray">A spiritual and emotional journey of faith, love, and personal growth.</div>
+            <a href="https://archive.org/details/peer-e-kamil" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+    <div class="book-card">
+        <img src="images/Raja.jpg" class="book-img" alt="Raja Gidh">
+        <div class="book-info">
+            <div class="title">Raja Gidh</div>
+            <div class="author">Bano Qudsia</div>
+            <div class="desc">Exploration of human psychology, halal-haram, and societal morals.</div>
+            <span class="highlight">Timeless Masterpiece</span>
+            <div class="myray">Deep understanding of human flaws. Very thought-provoking. A classic for literature lovers.</div>
+            <a href="https://archive.org/details/raja-gidh" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+
+    <!-- ISLAMIC -->
+    <h2 class="section-title" id="islamic">Islamic Books</h2>
+    <div class="book-card">
+        <img src="images/Tufa.jpg" class="book-img" alt="Ar-Raheeq Al-Makhtoom">
+        <div class="book-info">
+            <div class="title">Tuhaf al‑Uqul</div>
+            <div class="author">Ibn Shu'bah al‑Harrani</div>
+            <div class="desc">Collection of hadiths, wisdom and ethical teachings of the Prophet and Imams — spirituality, morality.</div>
+            <span class="highlight">World's Best Seerah</span>
+            <div class="myray">A deeply inspiring collection that nurtures moral reflection and spiritual growth.</div>
+            <a href="https://archive.org/details/raheeq-ul-makhtoom" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+    <div class="book-card">
+        <img src="images/Foot.jpg" class="book-img" alt="Purification of the Heart">
+        <div class="book-info">
+            <div class="title">In the Footsteps of the Prophet</div>
+            <div class="author">Tariq Ramadan</div>
+            <div class="desc">Collection of moral and spiritual teachings from the Prophet</div>
+            <span class="highlight">Spiritual Healing</span>
+            <div class="myray">Offers a modern, reflective perspective on the Prophet ﷺ’s life and moral teachings.</div>
+            <a href="https://archive.org/details/purification-of-the-heart" target="_blank" class="btn">Read Free</a>
+        </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="contact">
+        <h2>Contact Us</h2>
+        <p>Get in touch with us!</p>
+        <p style="font-size:28px;color:#167fff;font-weight:bold;">bookilove.pk@gmail.com</p>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2025 Books I Love • Made with love for Pakistani Youth</p>
+    <div class="social-icons" style="margin-top:25px;">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/923001234567" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+</footer>
+
+<script>
+// Auto Slideshow
+let slideIndex = 0;
+const slides = document.querySelectorAll('.slide');
+function showSlides() {
+    slides[slideIndex].classList.remove('active');
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add('active');
+}
+setInterval(showSlides, 5000);
+</script>
+
+</body>
+</html>
